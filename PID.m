@@ -59,4 +59,6 @@ figure(1)
 hold on
 plot(wayX, wayY, 'o','Color', 'r')
 plot([S(1)-cos(-phi_0) S(1)+cos(-phi_0)], [S(2)-sin(-phi_0) S(2)+sin(-phi_0)], 'Color', '0 0 0')
+plot(S(1), S(2), 'o','Color', 'r')
 grid on
+grid minor
