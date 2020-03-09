@@ -25,38 +25,38 @@ L_now = d_L;
 x_now = S(1);
 y_now = S(2);
 i = 0
-while abs(d_L) > 0.01
+while abs(d_L) > 0.01 %если есть ошибка по расстоянию
     figure(1)
         hold on
         plot(x_now,y_now,'o')
         xlim([0 12])
         ylim([0 12])
-        Omega = Kp*d_phi+Kd*d_phi*d_t
-        if abs(rad2deg(d_phi)) > 0.05
-            vl = Omega*3*R
-            vr = Omega*R
-            omega_rr = vr/r
+        Omega = Kp*d_phi+Kd*d_phi*d_t %угловая скорость всей машины для поворота
+        if abs(rad2deg(d_phi)) > 0.05 %если угол не совпадает с необходимым
+            vl = Omega*3*R %скорость левого и правого колеса с учетом, что
+            vr = Omega*R   %машина едет по кругу радиусом R для разворота
+            omega_rr = vr/r%угловая скорость вращения колес
             omega_ll = vl/r
-            Phi = Omega*d_t
-            d_phi = d_phi -  Phi
-            phi_now = phi_now + Phi
+            Phi = Omega*d_t%угол, на который машина повернулась
+            d_phi = d_phi -  Phi%высчитываем ошибку снова
+            phi_now = phi_now + Phi%в каком положении машина находится сейчас
         else
-            omega_rr = Kp*d_L+Kd*d_L*d_t
-            omega_ll = Kp*d_L+Kd*d_L*d_t
-            vl = omega_ll*r
+            omega_rr = Kp*d_L+Kd*d_L*d_t %если ошибки по углу нет, то мы 
+            omega_ll = Kp*d_L+Kd*d_L*d_t %просто назначаем одинаковую угловую скорость для обоих колес
+            vl = omega_ll*r %и едем вперед
             vr = omega_rr*r
         end
-        V = (vl+vr)/2
+        V = (vl+vr)/2 %общая скорость машины ВНЕ зависимости от того, есть ошибка по углу или нет
         
-        x = V*cos(phi_now)*d_t
-        x_now = x_now - x
+        x = V*cos(phi_now)*d_t % на сколько по оси Х машина проехала
+        x_now = x_now - x % на каком положении относительно оси Х машина находится
         
-        y = V*sin(phi_now)*d_t
-        y_now = y_now - y
+        y = V*sin(phi_now)*d_t % на сколько по оси Y машина проехала
+        y_now = y_now - y %на каком положении относительно оси Y машина находится
         
-        L = sqrt(x^2+y^2)
-        d_L = d_L - L
+        L = sqrt(x^2+y^2) %Какое расстояние проехала машина
+        d_L = d_L - L %Высчитывем снова ошибку по расстоянию
         
-        i = i+1
+        i = i+1 %просто посмотреть, сколько на все расчеты нужно итераций :)
 end
             
